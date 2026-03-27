@@ -11,3 +11,8 @@ python-multipart
 PyPDF2
 faiss-cpu
 python-dotenv
+transformers
+tiktoken
+langchain-text-splitters
+langchain-huggingface
+sentence-transformers
