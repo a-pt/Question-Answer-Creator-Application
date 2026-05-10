@@ -9,8 +9,8 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain_core.runnables import RunnablePassthrough
-import prompts
+from langchain_core.runnables import RunnablePassthrough, RunnableParallel
+from . import prompts
 
 # Groq Authentication
 load_dotenv()
@@ -102,12 +102,17 @@ def llm_pipeline(file_path):
 
     retriever = vector_store.as_retriever()
 
+    retrieval_prompt = PromptTemplate(
+        template = prompts.retrieval_promt,
+        input_variables = ["context", "question"]
+    )
+
     answer_chain = (
-        {
-            "context": retriever | format_docs,
-            "question": RunnablePassthrough()
-        }
-        | prompts.retrieval_promt
+        RunnableParallel(
+            context=retriever | format_docs,
+            question=RunnablePassthrough()
+        )
+        | retrieval_prompt
         | openaiChatModel
         | StrOutputParser()
     )

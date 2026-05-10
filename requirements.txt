@@ -16,3 +16,4 @@ tiktoken
 langchain-text-splitters
 langchain-huggingface
 sentence-transformers
+-e .
