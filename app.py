@@ -47,7 +47,7 @@ def get_csv(file_path):
     if not os.path.isdir(base_folder):
         os.makedirs(base_folder)
 
-    output_file = base_folder+"QA.csv"
+    output_file = base_folder+"/QA.csv"
 
     with open(output_file, "w", newline="", encoding="utf-8") as csvfile:
         csv_writer = csv.writer(csvfile)
@@ -61,7 +61,7 @@ def get_csv(file_path):
 
 
 @app.post("/analyze")
-async def analyze(request: Request, pdf_filename: str = Form(...)):
+def analyze(request: Request, pdf_filename: str = Form(...)):
     output_file = get_csv(pdf_filename)
     response_data = jsonable_encoder(json.dumps({"msg":"success","output_file":output_file}))
     return Response(content=response_data)

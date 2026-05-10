@@ -125,14 +125,16 @@
                         result.style.display = "block";
                         loader.style.display = "block";
                         download.style.display = "none";
-                        viewPdf.setAttribute('src', "../"+json.pdf_filename)
+                        viewPdf.setAttribute('src', "/"+json.pdf_filename)
                         viewPdf.setAttribute('preload', 'auto');
                         const formData = new FormData();
                         formData.append('pdf_filename', json.pdf_filename)
-                        fetch('/analyze', {
-                            method: "POST",
-                            body: formData                
-                        }).then(processAnalyzeResponse)  
+                        setTimeout(() => {
+                            fetch('/analyze', {
+                                method: "POST",
+                                body: formData                
+                            }).then(processAnalyzeResponse)
+                        }, 100);
                     }
                     
                     break;
